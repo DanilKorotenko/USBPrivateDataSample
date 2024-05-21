@@ -96,7 +96,7 @@ void DeviceNotification(void *refCon, io_service_t service, natural_t messageTyp
         // Dump our private data to stderr just to see what it looks like.
         fprintf(stderr, "privateDataRef->deviceName: ");
 		CFShow(privateDataRef->deviceName);
-		fprintf(stderr, "privateDataRef->locationID: 0x%lx.\n\n", privateDataRef->locationID);
+        fprintf(stderr, "privateDataRef->locationID: 0x%x.\n\n", (unsigned int)privateDataRef->locationID);
     
         // Free the data we're no longer using now that the device is going away
         CFRelease(privateDataRef->deviceName);
@@ -195,7 +195,7 @@ void DeviceAdded(void *refCon, io_iterator_t iterator)
             continue;
         }
         else {
-            fprintf(stderr, "Location ID: 0x%lx\n\n", locationID);
+            fprintf(stderr, "Location ID: 0x%x\n\n", (unsigned int)locationID);
         }
 
         privateDataRef->locationID = locationID;
@@ -303,7 +303,7 @@ int main(int argc, const char *argv[])
     // Create a notification port and add its run loop event source to our run loop
     // This is how async notifications get set up.
     
-    gNotifyPort = IONotificationPortCreate(kIOMasterPortDefault);
+    gNotifyPort = IONotificationPortCreate(kIOMainPortDefault);
     runLoopSource = IONotificationPortGetRunLoopSource(gNotifyPort);
     
     gRunLoop = CFRunLoopGetCurrent();
